@@ -131,6 +131,34 @@ int main()
 			auto sonuc = matrix_calculator.GausMatrisTersi(matrix);
 			matrix_calculator.MatrisYazdir(sonuc);
 		}
+		else if (menu == 14)
+		{
+			cout << "Hesaplama yapýlamadý!!!";
+		}
+		else if (menu == 15)
+		{
+			cout << "Hesaplama yapýlamadý!!!";
+		}
+		else if (menu == 16)
+		{
+			cout << "Hesaplama yapýlamadý!!!";
+		}
+		else if (menu == 17)
+		{
+			cout << "Hesaplama yapýlamadý!!!";
+		}
+		else if (menu == 18)
+		{
+			cout << "Hesaplama yapýlamadý!!!";
+		}
+		else if (menu == 19)
+		{
+			auto m = matrix_calculator.Cholesky(matrix);
+			auto t = matrix_calculator.TranspozeHesapla(m);
+			auto r = matrix_calculator.MatrisCarpimHesapla(m, t);
+			
+			matrix_calculator.MatrisYazdir(r);
+		}
 		else
 		{
 			cout << "Geçersiz bir iþlem seçtiniz!!!";

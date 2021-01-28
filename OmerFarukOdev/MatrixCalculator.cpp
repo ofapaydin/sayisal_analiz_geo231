@@ -207,3 +207,33 @@ vector<vector<double>> MatrixCalculator::GausMatrisTersi(vector<vector<double>> 
 		
 	return result;
 }
+
+vector<vector<double>> MatrixCalculator::Cholesky(vector<vector<double>> matris)
+{
+	vector<vector<double>> result(matris.size(), vector<double>(matris[0].size()));
+	const auto m = static_cast<int>(matris.size());
+	const auto n = static_cast<int>(matris[0].size());
+
+	for (auto i = 0; i < n; i++) {
+		for (auto j = 0; j <= i; j++) {
+			double sum = 0;
+
+			if (j == i) 
+			{
+				for (auto k = 0; k < j; k++)
+					sum += pow(result[j][k], 2);
+
+				result[j][j] = sqrt(matris[j][j] -sum);
+			}
+			else {
+
+				for (auto k = 0; k < j; k++)
+					sum += result[i][k] * result[j][k];
+
+				result[i][j] = (matris[i][j] - sum) / result[j][j];
+			}
+		}
+	}
+
+	return result;
+}
