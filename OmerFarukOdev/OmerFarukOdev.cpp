@@ -1,26 +1,22 @@
 #include <iostream>
 #include <array>
-#include<math.h>
+#include <math.h>
 #include <vector>
 #include <iomanip>
 #include "MatrixReader.h"
 #include "OmerFarukOdev.h"
-#include<algorithm>
-#include<locale.h>
+#include <algorithm>
+#include <locale.h>
 
 using namespace std;
-//
-//const int M = 5;
-//const int N = 5;
-//
-//array<double, M> b{ 0.7577, 0.7431, 0.3922, 0.6555, 0.1712 };
-//
-//array<array<double, M>, N> a = {
+
+//{
 //	0.8147, 0.0975, 0.1576, 0.1419, 0.6557 ,
 //	0.9058, 0.2785, 0.9706, 0.4218, 0.0357 ,
 //	0.1270, 0.5469, 0.9572, 0.9157, 0.8491 ,
 //	0.9134, 0.9575, 0.4854, 0.7922, 0.9340 ,
-//	0.6324, 0.9649, 0.8003, 0.9595, 0.6787 };
+//	0.6324, 0.9649, 0.8003, 0.9595, 0.6787
+//};
 
 
 double determinantHesapla(vector<vector<double>> matris, int n = 0)
