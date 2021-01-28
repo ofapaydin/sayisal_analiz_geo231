@@ -145,3 +145,65 @@ void MatrixCalculator::MatrisYazdir(vector<vector<double>> matris) {
 		cout << "\n";
 	}
 }
+
+vector<vector<double>> MatrixCalculator::GausMatrisTersi(vector<vector<double>> matris)
+{
+	auto height = static_cast<int>(matris.size());
+	auto width = static_cast<int>(matris[0].size());
+
+	vector<vector<double>> result(matris.size(), vector<double>(matris[0].size()));
+
+	// identity matris oluþtur
+	for (auto i = 0; i < width; i++)
+		result[i][i] = 1;
+
+	// Eþalon form
+	for (auto j = 0; j < width; ++j) {
+		// partial pivoting
+		auto maxRow = j;
+		for (auto i = j; i < height; ++i) {
+			maxRow = matris[i][j] > matris[maxRow][j] ? i : maxRow;
+		}
+
+		matris[j].swap(matris[maxRow]);
+		result[j].swap(result[maxRow]);
+
+		// Satýr iþlemleri
+		auto pivot = matris[j][j];
+		auto& row1L = matris[j];
+		auto& row1R = result[j];
+		for (auto i = j + 1; i < height; ++i) {
+			auto& row2L = matris[i];
+			auto& row2R = result[i];
+			auto temp = row2L[j];
+			for (auto k = 0; k < width; ++k) {
+				row2L[k] -= temp / pivot * row1L[k];
+				row2R[k] -= temp / pivot * row1R[k];
+			}
+		}
+
+		// Diyagonal elemanlar 1
+		for (auto k = 0; k < width; ++k) {
+			row1L[k] /= pivot;
+			row1R[k] /= pivot;
+		}
+	}
+	
+	for (auto j = width - 1;; --j) {
+		auto& row1L = matris[j];
+		auto& row1R = result[j];
+		for (auto i = 0; i < j; ++i) {
+			auto& row2L = matris[i];
+			auto& row2R = result[i];
+			auto temp = row2L[j];
+			for (auto k = 0; k < width; ++k) {
+				row2L[k] -= temp * row1L[k];
+				row2R[k] -= temp * row1R[k];
+			}
+		}
+		
+		if (j == 0) break;
+	}
+		
+	return result;
+}

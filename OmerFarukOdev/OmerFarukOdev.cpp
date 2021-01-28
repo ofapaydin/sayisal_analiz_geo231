@@ -114,6 +114,23 @@ int main()
 		{
 			cout << "SPEKTRAL KS(A): " << matrix_calculator.SpektralKondKatsayisi(matrix);
 		}
+		else if (menu == 10)
+		{
+			cout << "Hesaplama yapılamadı!!!";
+		}
+		else if (menu == 11)
+		{
+			cout << "Hesaplama yapılamadı!!!";
+		}
+		else if (menu == 12)
+		{
+			cout << "Hesaplama yapılamadı!!!";
+		}
+		else if (menu == 13)
+		{
+			auto sonuc = matrix_calculator.GausMatrisTersi(matrix);
+			matrix_calculator.MatrisYazdir(sonuc);
+		}
 		else
 		{
 			cout << "Geçersiz bir işlem seçtiniz!!!";

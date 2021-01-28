@@ -16,5 +16,6 @@ public:
 	static vector<vector<double>> TranspozeHesapla(vector<vector<double>> matris);
 	static vector<vector<double>> MartisNormlastir(vector<vector<double>> matris, double norm);
 	static void MatrisYazdir(vector<vector<double>> matris);
+	static vector<vector<double>> GausMatrisTersi(vector<vector<double>> matris);
 };
 
