@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MatrixCalculator.cpp" />
     <ClCompile Include="MatrixReader.cpp" />
     <ClCompile Include="OmerFarukOdev.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MatrixCalculator.h" />
     <ClInclude Include="MatrixReader.h" />
     <ClInclude Include="OmerFarukOdev.h" />
   </ItemGroup>

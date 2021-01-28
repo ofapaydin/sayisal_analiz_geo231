@@ -7,6 +7,7 @@
 #include "OmerFarukOdev.h"
 #include <algorithm>
 #include <locale.h>
+#include "MatrixCalculator.h";
 
 using namespace std;
 
@@ -19,146 +20,146 @@ using namespace std;
 //};
 
 
-double determinantHesapla(vector<vector<double>> matris, int n = 0)
-{
-	vector<vector<double>> temp(matris.size(), vector<double>(matris[0].size()));
-	double determinant = 0;
+//double determinantHesapla(vector<vector<double>> matris, int n = 0)
+//{
+//	vector<vector<double>> temp(matris.size(), vector<double>(matris[0].size()));
+//	double determinant = 0;
+//
+//	if (n == 0)
+//		n = matris.size();
+//
+//	if (n == 2)
+//		return ((matris[0][0] * matris[1][1]) - (matris[1][0] * matris[0][1]));
+//	else {
+//		for (int x = 0; x < n; x++) {
+//			int subi = 0;
+//			for (int i = 1; i < n; i++) {
+//				int subj = 0;
+//				for (int j = 0; j < n; j++) {
+//					if (j == x)
+//						continue;
+//					temp[subi][subj] = matris[i][j];
+//
+//					subj++;
+//				}
+//				subi++;
+//			}
+//			determinant = determinant + (pow(-1, x) * matris[0][x] * determinantHesapla(temp, n - 1));
+//		}
+//	}
+//
+//	return determinant;
+//}
+//
+//double izHesapla(vector<vector<double>> matris) {
+//	double sum = 0;
+//	double n = matris.size();
+//
+//	for (int i = 0; i < n; i++)
+//		sum += matris[i][i];
+//
+//	return sum;
+//}
 
-	if (n == 0)
-		n = matris.size();
+//double satirNorm(vector<vector<double>> matris, int satirNo) {
+//	double sum = 0;
+//	int n = matris[0].size();
+//
+//	for (int i = 0; i < n; i++)
+//		sum += pow(matris[satirNo][i], 2);
+//
+//	return sqrt(sum);
+//}
 
-	if (n == 2)
-		return ((matris[0][0] * matris[1][1]) - (matris[1][0] * matris[0][1]));
-	else {
-		for (int x = 0; x < n; x++) {
-			int subi = 0;
-			for (int i = 1; i < n; i++) {
-				int subj = 0;
-				for (int j = 0; j < n; j++) {
-					if (j == x)
-						continue;
-					temp[subi][subj] = matris[i][j];
+//double sutunNorm(vector<vector<double>> matris, int sutunNo) {
+//	double sum = 0;
+//	int n = matris.size();
+//
+//	for (int i = 0; i < n; i++)
+//		sum += pow(matris[i][sutunNo], 2);
+//
+//	return sqrt(sum);
+//}
+//
+//double oklidNorm(vector<vector<double>> matris) {
+//	double sum = 0;
+//	int m = matris.size();
+//	int n = matris[0].size();
+//
+//	for (int i = 0; i < n; i++)
+//		for (int j = 0; j < m; j++)
+//			sum += pow(matris[i][j], 2);
+//
+//	return sqrt(sum);
+//}
+//
+//vector<vector<double>> MatrisCarpimHesapla(vector<vector<double>> m1, vector<vector<double>> m2) {
+//
+//	vector<vector<double>> carpim(m1.size(), vector<double>(m1[0].size()));
+//	int m = m1.size();
+//	int n = m1[0].size();
+//
+//	for (int i = 0; i < m; ++i)
+//		for (int j = 0; j < n; ++j)
+//			for (int k = 0; k < n; ++k)
+//				carpim[i][j] += m1[i][k] * m2[k][j];
+//
+//	return carpim;
+//}
 
-					subj++;
-				}
-				subi++;
-			}
-			determinant = determinant + (pow(-1, x) * matris[0][x] * determinantHesapla(temp, n - 1));
-		}
-	}
+//vector<vector<double>> TranspozeHesapla(vector<vector<double>> matris) {
+//
+//	vector<vector<double>> transpose(matris.size(), vector<double>(matris[0].size()));
+//	int m = matris.size();
+//	int n = matris[0].size();
+//
+//	for (int i = 0; i < m; ++i)
+//		for (int j = 0; j < n; ++j) {
+//			transpose[j][i] = matris[i][j];
+//		}
+//
+//	return transpose;
+//}
 
-	return determinant;
-}
+//vector<vector<double>> martisNormlastirVeYazdir(vector<vector<double>> matris, double norm) {
+//
+//	vector<vector<double>> normlastirilmis(matris.size(), vector<double>(matris[0].size()));
+//	int m = matris.size();
+//	int n = matris[0].size();
+//
+//	for (int i = 0; i < m; ++i) {
+//		for (int j = 0; j < n; ++j) {
+//			normlastirilmis[i][j] = matris[i][j] / norm;
+//		}
+//	}
+//
+//	return normlastirilmis;
+//}
 
-double izHesapla(vector<vector<double>> matris) {
-	double sum = 0;
-	double n = matris.size();
-
-	for (int i = 0; i < n; i++)
-		sum += matris[i][i];
-
-	return sum;
-}
-
-double satirNorm(vector<vector<double>> matris, int satirNo) {
-	double sum = 0;
-	int n = matris[0].size();
-
-	for (int i = 0; i < n; i++)
-		sum += pow(matris[satirNo][i], 2);
-
-	return sqrt(sum);
-}
-
-double sutunNorm(vector<vector<double>> matris, int sutunNo) {
-	double sum = 0;
-	int n = matris.size();
-
-	for (int i = 0; i < n; i++)
-		sum += pow(matris[i][sutunNo], 2);
-
-	return sqrt(sum);
-}
-
-double oklidNorm(vector<vector<double>> matris) {
-	double sum = 0;
-	int m = matris.size();
-	int n = matris[0].size();
-
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < m; j++)
-			sum += pow(matris[i][j], 2);
-
-	return sqrt(sum);
-}
-
-vector<vector<double>> matrisCarpimHesapla(vector<vector<double>> m1, vector<vector<double>> m2) {
-
-	vector<vector<double>> carpim(m1.size(), vector<double>(m1[0].size()));
-	int m = m1.size();
-	int n = m1[0].size();
-
-	for (int i = 0; i < m; ++i)
-		for (int j = 0; j < n; ++j)
-			for (int k = 0; k < n; ++k)
-				carpim[i][j] += m1[i][k] * m2[k][j];
-
-	return carpim;
-}
-
-vector<vector<double>> transpozeHesapla(vector<vector<double>> matris) {
-
-	vector<vector<double>> transpose(matris.size(), vector<double>(matris[0].size()));
-	int m = matris.size();
-	int n = matris[0].size();
-
-	for (int i = 0; i < m; ++i)
-		for (int j = 0; j < n; ++j) {
-			transpose[j][i] = matris[i][j];
-		}
-
-	return transpose;
-}
-
-vector<vector<double>> martisNormlastirVeYazdir(vector<vector<double>> matris, double norm) {
-
-	vector<vector<double>> normlastirilmis(matris.size(), vector<double>(matris[0].size()));
-	int m = matris.size();
-	int n = matris[0].size();
-
-	for (int i = 0; i < m; ++i) {
-		for (int j = 0; j < n; ++j) {
-			normlastirilmis[i][j] = matris[i][j] / norm;
-		}
-	}
-
-	return normlastirilmis;
-}
-
-void matrisYazdir(vector<vector<double>> matris) {
-	int m = matris.size();
-	int n = matris[0].size();
-
-	for (int i = 0; i < m; ++i) {
-		for (int j = 0; j < n; ++j) {
-			cout << "\t" << matris[i][j] << "\t";
-		}
-		cout << "\n";
-	}
-}
-
-
-double spektralKondKatsayisi(vector<vector<double>> matris) {
-	double determinant = abs(determinantHesapla(matris));
-	double satirNormlariToplami = 0;
-	int m = matris.size();
-
-	for (int i = 0; i < m; ++i)
-		satirNormlariToplami += satirNorm(matris, i);
-
-	return determinant / satirNormlariToplami;
-
-}
+//void matrisYazdir(vector<vector<double>> matris) {
+//	int m = matris.size();
+//	int n = matris[0].size();
+//
+//	for (int i = 0; i < m; ++i) {
+//		for (int j = 0; j < n; ++j) {
+//			cout << "\t" << matris[i][j] << "\t";
+//		}
+//		cout << "\n";
+//	}
+//}
+//
+//
+//double spektralKondKatsayisi(vector<vector<double>> matris) {
+//	double determinant = abs(determinantHesapla(matris));
+//	double satirNormlariToplami = 0;
+//	int m = matris.size();
+//
+//	for (int i = 0; i < m; ++i)
+//		satirNormlariToplami += satirNorm(matris, i);
+//
+//	return determinant / satirNormlariToplami;
+//
+//}
 
 int main()
 {
@@ -175,10 +176,11 @@ int main()
 	//cout << "Vector dosya yolunu giriniz: ";
 	//cin >> vektorFilePath;
 
-	MatrixReader ornek;
-	vector<vector<double>> matris = ornek.ReadMatris(matrisFilePath);
-	vector<double> vektor = ornek.ReadVector(vektorFilePath);
-	int m = matris.size();
+	MatrixReader matrix_reader;
+	MatrixCalculator matrix_calculator;
+	auto matris = matrix_reader.ReadMatris(matrisFilePath);
+	auto vektor = matrix_reader.ReadVector(vektorFilePath);
+	const auto m = static_cast<int>(matris.size());;
 
 
 	cout << "####### Aþaðýdaki menüden bir matris iþlemi seçiniz #######\n";
@@ -204,58 +206,67 @@ int main()
 
 	while (true)
 	{
-
-	cout << "Menü seçiminiz ";
-	cin >> menu;
-
-
+		cout << "Ýþlem seçiminiz ";
+		cin >> menu;
 
 		if (menu == 1)
-			cout << "DET(A): " << determinantHesapla(matris) << "\n\n";
-
+		{
+			cout << "DET(A): " << matrix_calculator.DeterminantHesapla(matris) << "\n\n";
+		}
 		else if (menu == 2)
-			cout << "IZ(ATA): " << izHesapla(matrisCarpimHesapla(transpozeHesapla(matris), matris)) << "\n\n";
+		{
+			auto t = matrix_calculator.TranspozeHesapla(matris);
+			auto c = matrix_calculator.MatrisCarpimHesapla(t, matris);
 
+			cout << "IZ(ATA): " << matrix_calculator.IzHesapla(c) << "\n\n";
+		}
 		else if (menu == 3) {
-			for (int i = 0; i < m; i++)
+			for (auto i = 0; i < m; i++)
 			{
-				cout << "SATIR N(a" << i << "): " << satirNorm(matris, i) << "\n";
+				cout << "SATIR N(a" << i << "): " << matrix_calculator.SatirNorm(matris, i) << "\n";
 			}
 			cout << "\n";
 		}
-
 		else if (menu == 4) {
-			for (int i = 0; i < m; i++)
+			for (auto i = 0; i < m; i++)
 			{
-				cout << "SUTUN N(a" << i << "): " << sutunNorm(matris, i) << "\n";
+				cout << "SUTUN N(a" << i << "): " << matrix_calculator.SutunNorm(matris, i) << "\n";
 			}
 
 			cout << "\n";
 		}
-
 		else if (menu == 5)
-			cout << "OKLID N(A): " << oklidNorm(matris) << "\n\n";
-
+		{
+			cout << "OKLID N(A): " << matrix_calculator.OklidNorm(matris) << "\n\n";
+		}
 		else if (menu == 6)
-			cout << "IZ(ATA)^1/2: " << sqrt(izHesapla(matrisCarpimHesapla(transpozeHesapla(matris), matris))) << "     =>    N(A) = IZ(ATA)^1/2" << "\n\n";
+		{
+			auto t = matrix_calculator.TranspozeHesapla(matris);
+			auto m = matrix_calculator.MatrisCarpimHesapla(t, matris);
+			auto iz = matrix_calculator.IzHesapla(m);
+			auto izATA = sqrt(iz);
 
+			cout << "IZ(ATA)^1/2: " << izATA << " =>    N(A) = IZ(ATA)^1/2" << "\n\n";
+		}
 		else if (menu == 7) {
 			cout << "Oklid Normuna Gore A matrisi  \n";
-			matrisYazdir(martisNormlastirVeYazdir(matris, oklidNorm(matris)));
+			auto oklidNorm = matrix_calculator.OklidNorm(matris);
+			auto normlastirilmis = matrix_calculator.MartisNormlastir(matris, oklidNorm);
+			matrix_calculator.MatrisYazdir(normlastirilmis);
 			cout << "\n\n";
 		}
-
 		else if (menu == 9)
+		{
 			cout << "Hesaplama yapýlamadý " << "\n";
-
+		}
 		else if (menu == 9)
-			cout << "SPEKTRAL KS(A): " << spektralKondKatsayisi(matris) << "\n\n";
-
+		{
+			cout << "SPEKTRAL KS(A): " << matrix_calculator.SpektralKondKatsayisi(matris) << "\n\n";
+		}
 		else
 		{
 			cout << "Geçersiz bir iþlem. " << "\n";
 		}
 
 	}
-	system("pause>0");
 }
