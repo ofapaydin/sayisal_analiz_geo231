@@ -139,7 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MatrixReader.cpp" />
     <ClCompile Include="OmerFarukOdev.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MatrixReader.h" />
+    <ClInclude Include="OmerFarukOdev.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
