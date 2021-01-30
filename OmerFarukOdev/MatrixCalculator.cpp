@@ -258,3 +258,23 @@ vector<double> MatrixCalculator::OzdegerleriHesapla(vector<vector<double>> matri
 
 	return ozdegerler;
 }
+
+double MatrixCalculator::HardamardKatsayisiHesapla(vector<vector<double>> matris)
+{
+	auto det = this->DeterminantHesapla(matris);
+	double carpim = 1;
+	const auto row = static_cast<int>(matris.size());
+	const auto col = static_cast<int>(matris[0].size());
+	
+	for (auto i = 0; i < row; i++)
+	{
+		double sum = 0;
+		for (auto j = 0; j < col; j++)
+		{
+			sum = sum + matris[i][j];
+		}
+		carpim = carpim * sqrt(sum);
+	}
+
+	return det / carpim;
+}

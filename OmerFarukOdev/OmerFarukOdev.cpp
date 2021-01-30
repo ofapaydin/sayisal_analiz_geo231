@@ -136,7 +136,9 @@ int main()
 		}
 		else if (menu == 10)
 		{
-			cout << "Hesaplama yapılamadı!!!";
+			auto hardamart = matrix_calculator.HardamardKatsayisiHesapla(matrix);
+			
+			cout << "Hardamard katsayısı: " << hardamart ;
 		}
 		else if (menu == 11)
 		{
