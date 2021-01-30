@@ -18,5 +18,6 @@ public:
 	static void MatrisYazdir(vector<vector<double>> matris);
 	static vector<vector<double>> GausMatrisTersi(vector<vector<double>> matris);
 	static vector<vector<double>> Cholesky(vector<vector<double>> matris);
+	static vector<double> OzdegerleriHesapla(vector<vector<double>> matris);
 };
 

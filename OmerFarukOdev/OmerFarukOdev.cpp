@@ -3,6 +3,9 @@
 #include <iomanip>
 #include "MatrixReader.h"
 #include "OmerFarukOdev.h"
+
+#include <algorithm>
+
 #include "MatrixCalculator.h"
 
 using namespace std;
@@ -107,13 +110,29 @@ int main()
 			auto normlastirilmis = matrix_calculator.MartisNormlastir(matrix, oklidNorm);
 			matrix_calculator.MatrisYazdir(normlastirilmis);
 		}
-		else if (menu == 9)
+		else if (menu == 8)
 		{
-			cout << "Hesaplama yapýlamadý!!!";
+			auto ozdegerler = matrix_calculator.OzdegerleriHesapla(matrix);
+			auto s = static_cast<int>(ozdegerler.size());
+			
+			cout << "Özdeðerler:";
+
+			cout << " [ ";
+
+			for (auto  i = 0; i< s; i++)
+				cout << ozdegerler[i] << " ";
+
+			cout << " ] ";
 		}
 		else if (menu == 9)
 		{
-			cout << "SPEKTRAL KS(A): " << matrix_calculator.SpektralKondKatsayisi(matrix);
+			auto ozdegerler = matrix_calculator.OzdegerleriHesapla(matrix);
+			auto max = *max_element(begin(ozdegerler), end(ozdegerler));
+			auto min = *min_element(begin(ozdegerler), end(ozdegerler));
+			
+			auto condA = max / min;
+			
+			cout << "SPEKTRAL (Todd) cond(A)= " << condA << " ve cond(A)>10^3 þartý saðlanmadýðý için kararlýdýr. ";
 		}
 		else if (menu == 10)
 		{
@@ -130,6 +149,7 @@ int main()
 		else if (menu == 13)
 		{
 			auto sonuc = matrix_calculator.GausMatrisTersi(matrix);
+
 			matrix_calculator.MatrisYazdir(sonuc);
 		}
 		else if (menu == 14)

@@ -1,8 +1,10 @@
 #include "MatrixCalculator.h"
 #include <iostream>
 #include <vector>
+#include <Eigen/Eigenvalues>
 
 using namespace std;
+using namespace Eigen;
 
 double MatrixCalculator::DeterminantHesapla(vector<vector<double>> matris, int n)
 {
@@ -73,7 +75,7 @@ double MatrixCalculator::SpektralKondKatsayisi(vector<vector<double>> matris)
 	const auto m = static_cast<int>(matris.size());
 
 	for (auto i = 0; i < m; ++i)
-		satirNormlariToplami += this -> SatirNorm(matris, i);
+		satirNormlariToplami += this->SatirNorm(matris, i);
 
 	return determinant / satirNormlariToplami;
 }
@@ -188,7 +190,7 @@ vector<vector<double>> MatrixCalculator::GausMatrisTersi(vector<vector<double>> 
 			row1R[k] /= pivot;
 		}
 	}
-	
+
 	for (auto j = width - 1;; --j) {
 		auto& row1L = matris[j];
 		auto& row1R = result[j];
@@ -201,10 +203,10 @@ vector<vector<double>> MatrixCalculator::GausMatrisTersi(vector<vector<double>> 
 				row2R[k] -= temp * row1R[k];
 			}
 		}
-		
+
 		if (j == 0) break;
 	}
-		
+
 	return result;
 }
 
@@ -218,12 +220,12 @@ vector<vector<double>> MatrixCalculator::Cholesky(vector<vector<double>> matris)
 		for (auto j = 0; j <= i; j++) {
 			double sum = 0;
 
-			if (j == i) 
+			if (j == i)
 			{
 				for (auto k = 0; k < j; k++)
 					sum += pow(result[j][k], 2);
 
-				result[j][j] = sqrt(matris[j][j] -sum);
+				result[j][j] = sqrt(matris[j][j] - sum);
 			}
 			else {
 
@@ -236,4 +238,23 @@ vector<vector<double>> MatrixCalculator::Cholesky(vector<vector<double>> matris)
 	}
 
 	return result;
+}
+
+vector<double> MatrixCalculator::OzdegerleriHesapla(vector<vector<double>> matris)
+{	
+	const auto row = static_cast<int>(matris.size());
+	const auto col = static_cast<int>(matris[0].size());
+	vector<double> ozdegerler(row);
+	MatrixXd a(row, col);
+
+	for (auto i = 0; i < row; i++)
+		for (auto j = 0; j < col; j++)
+			a(i, j) = matris[i][j];
+
+	auto oz = a.eigenvalues();
+
+	for (auto i = 0; i < row; i++)
+		ozdegerler[i] = oz(i).real();
+
+	return ozdegerler;
 }
