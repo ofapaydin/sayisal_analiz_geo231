@@ -130,15 +130,19 @@ int main()
 			auto max = *max_element(begin(ozdegerler), end(ozdegerler));
 			auto min = *min_element(begin(ozdegerler), end(ozdegerler));
 			
-			auto condA = max / min;
+			double condA = max / min;
+			string karar = condA > pow(10, 3) ? "Kararsız" : "Kararlı";
 			
-			cout << "SPEKTRAL (Todd) cond(A)= " << condA << " ve cond(A)>10^3 şartı sağlanmadığı için kararlıdır. ";
+			cout << "SPEKTRAL (Todd) cond(A)= " << condA << endl;
+			cout << "Matris " << karar;
 		}
 		else if (menu == 10)
 		{
 			auto hardamart = matrix_calculator.HardamardKatsayisiHesapla(matrix);
+			string karar = hardamart < pow(10,-2) ? "Kararsız" : "Kararlı";
 			
-			cout << "Hardamard katsayısı: " << hardamart ;
+			cout << "Hardamard katsayısı: " << hardamart << endl;
+			cout << "Matris " << karar;
 		}
 		else if (menu == 11)
 		{

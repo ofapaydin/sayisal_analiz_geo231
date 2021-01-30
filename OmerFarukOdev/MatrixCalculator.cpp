@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <Eigen/Eigenvalues>
+#include <Eigen/Cholesky>
 
 using namespace std;
 using namespace Eigen;
@@ -255,13 +256,13 @@ vector<double> MatrixCalculator::OzdegerleriHesapla(vector<vector<double>> matri
 
 	for (auto i = 0; i < row; i++)
 		ozdegerler[i] = oz(i).real();
-
+	
 	return ozdegerler;
 }
 
 double MatrixCalculator::HardamardKatsayisiHesapla(vector<vector<double>> matris)
 {
-	auto det = this->DeterminantHesapla(matris);
+	const auto det = this->DeterminantHesapla(matris);
 	double carpim = 1;
 	const auto row = static_cast<int>(matris.size());
 	const auto col = static_cast<int>(matris[0].size());
@@ -271,10 +272,10 @@ double MatrixCalculator::HardamardKatsayisiHesapla(vector<vector<double>> matris
 		double sum = 0;
 		for (auto j = 0; j < col; j++)
 		{
-			sum = sum + matris[i][j];
+			sum = sum + pow(matris[i][j],2);
 		}
 		carpim = carpim * sqrt(sum);
 	}
 
-	return det / carpim;
+	return abs(det) / carpim;
 }
