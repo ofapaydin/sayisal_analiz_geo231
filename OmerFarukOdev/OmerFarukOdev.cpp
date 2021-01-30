@@ -93,12 +93,13 @@ int main()
 		}
 		else if (menu == 6)
 		{
+			auto na = matrix_calculator.OklidNorm(matrix);
 			auto t = matrix_calculator.TranspozeHesapla(matrix);
 			auto m = matrix_calculator.MatrisCarpimHesapla(t, matrix);
 			auto iz = matrix_calculator.IzHesapla(m);
 			auto izATA = sqrt(iz);
 
-			cout << "IZ(ATA)^1/2: " << izATA << " =>    N(A) = IZ(ATA)^1/2";
+			cout << "IZ(ATA)^1/2 = " << izATA << "   ve   N(A) = " << na << " olduðu için IZ(ATA)^1/2 = N(A) olur.";
 		}
 		else if (menu == 7) {
 			cout << "Oklid Normuna Gore A matrisi  \n";
