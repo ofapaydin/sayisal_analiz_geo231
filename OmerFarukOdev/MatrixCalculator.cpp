@@ -69,36 +69,6 @@ double MatrixCalculator::SatirNorm(vector<vector<double>> matris, int satirNo) {
 	return sqrt(sum);
 }
 
-double MatrixCalculator::SpektralKondKatsayisi(vector<vector<double>> matris)
-{
-	const auto determinant = abs(this->DeterminantHesapla(matris));
-	const auto row = static_cast<int>(matris.size());
-	const auto col = static_cast<int>(matris[0].size());
-	vector<double> ozdegerler(row);
-	MatrixXd a(row, col);
-
-	for (auto i = 0; i < row; i++)
-		for (auto j = 0; j < col; j++)
-			a(i, j) = matris[i][j];
-
-	auto oz = a.eigenvalues();
-
-	for (auto i = 0; i < row; i++)
-		ozdegerler[i] = oz(i).real();
-
-	double max = 0, min = 0;
-
-	for (auto i = 0; i < row; i++)
-	{
-		if (ozdegerler[i] > max)
-			max = ozdegerler[i];
-		if (ozdegerler[i] < min)
-			min = ozdegerler[i];
-	}
-	
-	return max / min;
-}
-
 double MatrixCalculator::OklidNorm(vector<vector<double>> matris) {
 	double sum = 0;
 	const auto m = static_cast<int>(matris.size());
@@ -164,6 +134,15 @@ void MatrixCalculator::MatrisYazdir(vector<vector<double>> matris) {
 			cout << "\t" << matris[i][j] << "\t";
 		}
 		cout << "\n";
+	}
+}
+
+void MatrixCalculator::VektorYazdir(vector<double> vektor)
+{
+	const auto m = static_cast<int>(vektor.size());
+
+	for (auto i = 0; i < m; ++i) {
+		cout << "\t" << vektor[i] << "  ";
 	}
 }
 
@@ -260,25 +239,6 @@ vector<vector<double>> MatrixCalculator::CholeskyFactorHesapla(vector<vector<dou
 	return result;
 }
 
-vector<double> MatrixCalculator::OzdegerleriHesapla(vector<vector<double>> matris)
-{	
-	const auto row = static_cast<int>(matris.size());
-	const auto col = static_cast<int>(matris[0].size());
-	vector<double> ozdegerler(row);
-	MatrixXd a(row, col);
-
-	for (auto i = 0; i < row; i++)
-		for (auto j = 0; j < col; j++)
-			a(i, j) = matris[i][j];
-
-	auto oz = a.eigenvalues();
-
-	for (auto i = 0; i < row; i++)
-		ozdegerler[i] = oz(i).real();
-	
-	return ozdegerler;
-}
-
 double MatrixCalculator::HadamardKatsayisiHesapla(vector<vector<double>> matris)
 {
 	const auto determinant = abs(this->DeterminantHesapla(matris));
@@ -294,7 +254,7 @@ double MatrixCalculator::HadamardKatsayisiHesapla(vector<vector<double>> matris)
 vector<vector<double>> MatrixCalculator::Inverse(vector<vector<double>> matris)
 {
 	double d = 1.0 / this -> DeterminantHesapla(matris);
-	std::vector<std::vector<double>> solution(matris.size(), std::vector<double>(matris.size()));
+	vector<vector<double>> solution(matris.size(), std::vector<double>(matris.size()));
 
 	for (size_t i = 0; i < matris.size(); i++) {
 		for (size_t j = 0; j < matris.size(); j++) {
@@ -313,27 +273,27 @@ vector<vector<double>> MatrixCalculator::Inverse(vector<vector<double>> matris)
 	return solution;
 }
 
-vector<vector<double>> MatrixCalculator::CofactorHesapla(const vector<vector<double>> vect) {
+vector<vector<double>> MatrixCalculator::CofactorHesapla(const vector<vector<double>> matris) {
 
-	vector<vector<double>> solution(vect.size(), vector<double>(vect.size()));
-	vector<vector<double>> subVect(vect.size() - 1, vector<double>(vect.size() - 1));
+	vector<vector<double>> solution(matris.size(), vector<double>(matris.size()));
+	vector<vector<double>> subVect(matris.size() - 1, vector<double>(matris.size() - 1));
 
-	for (auto i = 0; i < vect.size(); i++) {
-		for (auto j = 0; j < vect[0].size(); j++) {
+	for (auto i = 0; i < matris.size(); i++) {
+		for (auto j = 0; j < matris[0].size(); j++) {
 			auto p = 0;
 
-			for (auto x = 0; x < vect.size(); x++) {
+			for (auto x = 0; x < matris.size(); x++) {
 				if (x == i) {
 					continue;
 				}
 				auto q = 0;
 
-				for (size_t y = 0; y < vect.size(); y++) {
+				for (size_t y = 0; y < matris.size(); y++) {
 					if (y == j) {
 						continue;
 					}
 
-					subVect[p][q] = vect[x][y];
+					subVect[p][q] = matris[x][y];
 					q++;
 				}
 				p++;
@@ -341,5 +301,32 @@ vector<vector<double>> MatrixCalculator::CofactorHesapla(const vector<vector<dou
 			solution[i][j] = pow(-1, i + j) * this->DeterminantHesapla(subVect);
 		}
 	}
+	return solution;
+}
+
+vector<double> MatrixCalculator::GaussJordanBilinmeyenVektorHesapla(vector<vector<double>> matris)
+{
+	vector<double> solution(vector<double>(matris.size()));
+	vector<vector<double>> temp(matris.size(), vector<double>(matris.size()));
+	const auto n = static_cast<int>(matris.size());
+	
+	for (auto j = 0; j < n; j++)
+	{
+		for (auto i = 0; i < n; i++)
+		{
+			if(i!=j)
+			{
+				const auto c = matris[i][j] / matris[j][j];
+				
+				for (auto k = 0; k < n; k++) {
+					temp[i][k] = temp[i][k] - c * matris[j][k];
+				}
+			}
+		}		
+	}
+
+	for (auto i = 0; i < n; i++)
+		solution[i] = temp[i][0] / temp[i][i];
+
 	return solution;
 }

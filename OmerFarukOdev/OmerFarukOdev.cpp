@@ -112,25 +112,11 @@ int main()
 		}
 		else if (menu == 8)
 		{
-			auto ozdegerler = matrix_calculator.OzdegerleriHesapla(matrix);
-			auto s = static_cast<int>(ozdegerler.size());
-			
-			cout << "Özdeðerler:";
-
-			cout << " [ ";
-
-			for (auto  i = 0; i< s; i++)
-				cout << ozdegerler[i] << " ";
-
-			cout << " ] ";
+			cout << "Hesaplama yapýlamadý!!!";
 		}
 		else if (menu == 9)
 		{
-			auto condA = matrix_calculator.SpektralKondKatsayisi(matrix);
-			string karar = condA > pow(10, 3) ? "Kararsýz" : "Kararlý";
-			string karakter = condA > pow(10, 3) ? ">" : "<";
-			
-			cout << "cond(A) = " << condA  << " ve cond(A) " << karakter << " 10^3 olduðundan " << " matris " << karar << endl;
+			cout << "Hesaplama yapýlamadý!!!";
 		}
 		else if (menu == 10)
 		{
@@ -165,7 +151,9 @@ int main()
 		}
 		else if (menu == 15)
 		{
-			cout << "Hesaplama yapýlamadý!!!";
+			auto v = matrix_calculator.GaussJordanBilinmeyenVektorHesapla(matrix);
+			
+			matrix_calculator.VektorYazdir(v);
 		}
 		else if (menu == 16)
 		{
