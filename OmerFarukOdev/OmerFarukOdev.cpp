@@ -29,9 +29,9 @@ static void PrintMenu()
 	cout << "\t 14. Gauss algoritmasi ile x bilinmeyenler verktorunu hesapla. \n";
 	cout << "\t 15. Gauss-Jordan yontemi ile x bilinmeyenler verktorunu hesapla. \n";
 	cout << "\t 16. Modernlestirilmis Gauss Algoritmasi ile x bilinmeyenler vektorunu hesapla. \n";
-	cout << "\t 17. Cholesky yontemi ile x bilinmeyenler vektorunu hesapla. \n";
+	cout << "\t 17. CholeskyFactorHesapla yontemi ile x bilinmeyenler vektorunu hesapla. \n";
 	cout << "\t 18. Modernlestirilmis Gauss Algoritmasi ile ATA matrisinin tersini hesapla. \n";
-	cout << "\t 19. Cholesky yontemi ile ATA matrisinin tersini hesapla. \n";
+	cout << "\t 19. CholeskyFactorHesapla yontemi ile ATA matrisinin tersini hesapla. \n";
 }
 
 int main()
@@ -126,23 +126,20 @@ int main()
 		}
 		else if (menu == 9)
 		{
-			auto ozdegerler = matrix_calculator.OzdegerleriHesapla(matrix);
-			auto max = *max_element(begin(ozdegerler), end(ozdegerler));
-			auto min = *min_element(begin(ozdegerler), end(ozdegerler));
-			
-			double condA = max / min;
+			auto condA = matrix_calculator.SpektralKondKatsayisi(matrix);
 			string karar = condA > pow(10, 3) ? "Kararsýz" : "Kararlý";
+			string karakter = condA > pow(10, 3) ? ">" : "<";
 			
-			cout << "SPEKTRAL (Todd) cond(A)= " << condA << endl;
-			cout << "Matris " << karar;
+			cout << "cond(A) = " << condA  << " ve cond(A) " << karakter << " 10^3 olduðundan " << " matris " << karar << endl;
 		}
 		else if (menu == 10)
 		{
-			auto hardamart = matrix_calculator.HardamardKatsayisiHesapla(matrix);
-			string karar = hardamart < pow(10,-2) ? "Kararsýz" : "Kararlý";
+			auto condA = matrix_calculator.HadamardKatsayisiHesapla(matrix);
+			string karar = condA < pow(10,-2) ? "Kararsýz" : "Kararlý";
+			string karakter = condA > pow(10, 3) ? ">" : "<";
 			
-			cout << "Hardamard katsayýsý: " << hardamart << endl;
-			cout << "Matris " << karar;
+			cout << "Hadamard katsayýsý: " << condA << " ve cond(A) " << karakter<< endl;
+			cout << "Matris " << karar << ".";
 		}
 		else if (menu == 11)
 		{
@@ -157,6 +154,10 @@ int main()
 			auto sonuc = matrix_calculator.GausMatrisTersi(matrix);
 
 			matrix_calculator.MatrisYazdir(sonuc);
+
+			auto m = matrix_calculator.Inverse(matrix);
+			cout << endl;
+			matrix_calculator.MatrisYazdir(m);
 		}
 		else if (menu == 14)
 		{
@@ -180,11 +181,24 @@ int main()
 		}
 		else if (menu == 19)
 		{
-			auto m = matrix_calculator.Cholesky(matrix);
-			auto t = matrix_calculator.TranspozeHesapla(m);
-			auto r = matrix_calculator.MatrisCarpimHesapla(m, t);
+			auto a = matrix;
+			auto at = matrix_calculator.TranspozeHesapla(a);
+			auto ata = matrix_calculator.MatrisCarpimHesapla(a, at);
 			
-			matrix_calculator.MatrisYazdir(r);
+			auto c = matrix_calculator.CholeskyFactorHesapla(ata);			
+			auto ic = matrix_calculator.GausMatrisTersi(c);
+			auto tc = matrix_calculator.TranspozeHesapla(c);
+			auto tic = matrix_calculator.GausMatrisTersi(tc);
+			auto r = matrix_calculator.MatrisCarpimHesapla(ic, tic);
+
+			cout << endl << "ATA Matrisi:" << endl;
+			matrix_calculator.MatrisYazdir(ata);
+			
+			cout << endl << "C Matrisi:" << endl;
+			matrix_calculator.MatrisYazdir(c);
+			
+			cout << endl << "A' Matrisi" << endl;			
+			matrix_calculator.MatrisYazdir(r);			
 		}
 		else
 		{

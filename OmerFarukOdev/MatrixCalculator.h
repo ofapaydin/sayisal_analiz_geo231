@@ -6,7 +6,7 @@ using namespace std;
 class MatrixCalculator
 {
 public:
-	static double DeterminantHesapla(std::vector<std::vector<double>> matris, int n = 0);
+	double DeterminantHesapla(std::vector<std::vector<double>> matris, int n = 0);
 	static double IzHesapla(vector<vector<double>> matris);
 	double SpektralKondKatsayisi(vector<vector<double>> matris);
 	static double SatirNorm(vector<vector<double>> matris, int satirNo);
@@ -17,8 +17,10 @@ public:
 	static vector<vector<double>> MartisNormlastir(vector<vector<double>> matris, double norm);
 	static void MatrisYazdir(vector<vector<double>> matris);
 	static vector<vector<double>> GausMatrisTersi(vector<vector<double>> matris);
-	static vector<vector<double>> Cholesky(vector<vector<double>> matris);
+	static vector<vector<double>> CholeskyFactorHesapla(vector<vector<double>> matris);
 	static vector<double> OzdegerleriHesapla(vector<vector<double>> matris);
-	double HardamardKatsayisiHesapla(vector<vector<double>> matris);
+	double HadamardKatsayisiHesapla(vector<vector<double>> matris);
+	vector<std::vector<double>> Inverse(vector<vector<double>> matris);
+	vector<vector<double>> CofactorHesapla(const vector<vector<double>> vect);
 };
 

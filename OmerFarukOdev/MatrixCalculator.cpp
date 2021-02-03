@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <Eigen/Eigenvalues>
-#include <Eigen/Cholesky>
+
 
 using namespace std;
 using namespace Eigen;
@@ -72,13 +72,31 @@ double MatrixCalculator::SatirNorm(vector<vector<double>> matris, int satirNo) {
 double MatrixCalculator::SpektralKondKatsayisi(vector<vector<double>> matris)
 {
 	const auto determinant = abs(this->DeterminantHesapla(matris));
-	auto satirNormlariToplami = 0.0;
-	const auto m = static_cast<int>(matris.size());
+	const auto row = static_cast<int>(matris.size());
+	const auto col = static_cast<int>(matris[0].size());
+	vector<double> ozdegerler(row);
+	MatrixXd a(row, col);
 
-	for (auto i = 0; i < m; ++i)
-		satirNormlariToplami += this->SatirNorm(matris, i);
+	for (auto i = 0; i < row; i++)
+		for (auto j = 0; j < col; j++)
+			a(i, j) = matris[i][j];
 
-	return determinant / satirNormlariToplami;
+	auto oz = a.eigenvalues();
+
+	for (auto i = 0; i < row; i++)
+		ozdegerler[i] = oz(i).real();
+
+	double max = 0, min = 0;
+
+	for (auto i = 0; i < row; i++)
+	{
+		if (ozdegerler[i] > max)
+			max = ozdegerler[i];
+		if (ozdegerler[i] < min)
+			min = ozdegerler[i];
+	}
+	
+	return max / min;
 }
 
 double MatrixCalculator::OklidNorm(vector<vector<double>> matris) {
@@ -211,29 +229,30 @@ vector<vector<double>> MatrixCalculator::GausMatrisTersi(vector<vector<double>> 
 	return result;
 }
 
-vector<vector<double>> MatrixCalculator::Cholesky(vector<vector<double>> matris)
+vector<vector<double>> MatrixCalculator::CholeskyFactorHesapla(vector<vector<double>> matris)
 {
-	vector<vector<double>> result(matris.size(), vector<double>(matris[0].size()));
-	const auto m = static_cast<int>(matris.size());
-	const auto n = static_cast<int>(matris[0].size());
+	const auto n = static_cast<int>(matris.size());
+	
+	vector<vector<double>> result(n, vector<double>(n));
 
 	for (auto i = 0; i < n; i++) {
-		for (auto j = 0; j <= i; j++) {
-			double sum = 0;
-
+		for (auto j = 0; j <= i; j++) {		
+						
 			if (j == i)
 			{
+				double sum = 0;
 				for (auto k = 0; k < j; k++)
-					sum += pow(result[j][k], 2);
+					sum += result[j][k] * result[j][k];
 
 				result[j][j] = sqrt(matris[j][j] - sum);
 			}
-			else {
-
+			else
+			{
+				double sum = 0;
 				for (auto k = 0; k < j; k++)
 					sum += result[i][k] * result[j][k];
 
-				result[i][j] = (matris[i][j] - sum) / result[j][j];
+				result[i][j] = 1.0 / result[j][j] * (matris[i][j] - sum);
 			}
 		}
 	}
@@ -260,22 +279,67 @@ vector<double> MatrixCalculator::OzdegerleriHesapla(vector<vector<double>> matri
 	return ozdegerler;
 }
 
-double MatrixCalculator::HardamardKatsayisiHesapla(vector<vector<double>> matris)
+double MatrixCalculator::HadamardKatsayisiHesapla(vector<vector<double>> matris)
 {
-	const auto det = this->DeterminantHesapla(matris);
-	double carpim = 1;
-	const auto row = static_cast<int>(matris.size());
-	const auto col = static_cast<int>(matris[0].size());
-	
-	for (auto i = 0; i < row; i++)
-	{
-		double sum = 0;
-		for (auto j = 0; j < col; j++)
-		{
-			sum = sum + pow(matris[i][j],2);
+	const auto determinant = abs(this->DeterminantHesapla(matris));
+	auto satirNormlariToplami = 0.0;
+	const auto m = static_cast<int>(matris.size());
+
+	for (auto i = 0; i < m; ++i)
+		satirNormlariToplami += this->SatirNorm(matris, i);
+
+	return determinant / satirNormlariToplami;	
+}
+
+vector<vector<double>> MatrixCalculator::Inverse(vector<vector<double>> matris)
+{
+	double d = 1.0 / this -> DeterminantHesapla(matris);
+	std::vector<std::vector<double>> solution(matris.size(), std::vector<double>(matris.size()));
+
+	for (size_t i = 0; i < matris.size(); i++) {
+		for (size_t j = 0; j < matris.size(); j++) {
+			solution[i][j] = matris[i][j];
 		}
-		carpim = carpim * sqrt(sum);
 	}
 
-	return abs(det) / carpim;
+	solution = this->TranspozeHesapla(this->CofactorHesapla(solution));
+
+	for (size_t i = 0; i < matris.size(); i++) {
+		for (size_t j = 0; j < matris.size(); j++) {
+			solution[i][j] *= d;
+		}
+	}
+
+	return solution;
+}
+
+vector<vector<double>> MatrixCalculator::CofactorHesapla(const vector<vector<double>> vect) {
+
+	vector<vector<double>> solution(vect.size(), vector<double>(vect.size()));
+	vector<vector<double>> subVect(vect.size() - 1, vector<double>(vect.size() - 1));
+
+	for (auto i = 0; i < vect.size(); i++) {
+		for (auto j = 0; j < vect[0].size(); j++) {
+			auto p = 0;
+
+			for (auto x = 0; x < vect.size(); x++) {
+				if (x == i) {
+					continue;
+				}
+				auto q = 0;
+
+				for (size_t y = 0; y < vect.size(); y++) {
+					if (y == j) {
+						continue;
+					}
+
+					subVect[p][q] = vect[x][y];
+					q++;
+				}
+				p++;
+			}
+			solution[i][j] = pow(-1, i + j) * this->DeterminantHesapla(subVect);
+		}
+	}
+	return solution;
 }
