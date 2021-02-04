@@ -3,9 +3,6 @@
 #include <iomanip>
 #include "MatrixReader.h"
 #include "OmerFarukOdev.h"
-
-#include <algorithm>
-
 #include "MatrixCalculator.h"
 
 using namespace std;
@@ -39,20 +36,21 @@ int main()
 	setlocale(LC_ALL, "Turkish");
 	cout << fixed << setprecision(7);
 
-	string matrixFilePath = "matrix5.txt";
+	string matrisFilePath = "matrix5.txt";
 	string vectorFilePath = "vector5.txt";
 	int menu;
 
-	//cout << "Matris dosya yolunu giriniz: ";
-	//cin >> matrisFilePath;
+	cout << "Matris dosya yolunu giriniz: ";
+	cin >> matrisFilePath;
 
-	//cout << "Vector dosya yolunu giriniz: ";
-	//cin >> vektorFilePath;
+	cout << "Vector dosya yolunu giriniz: ";
+	cin >> vectorFilePath;
+	cout << endl;
 
 	MatrixReader matrix_reader;
 	MatrixCalculator matrix_calculator;
 
-	auto matrix = matrix_reader.ReadMatris(matrixFilePath);
+	auto matrix = matrix_reader.ReadMatris(matrisFilePath);
 	auto vektor = matrix_reader.ReadVector(vectorFilePath);
 	const auto size = static_cast<int>(matrix.size());
 	
@@ -124,7 +122,7 @@ int main()
 			string karar = condA < pow(10,-2) ? "Kararsýz" : "Kararlý";
 			string karakter = condA > pow(10, 3) ? ">" : "<";
 			
-			cout << "Hadamard katsayýsý: " << condA << " ve cond(A) " << karakter<< endl;
+			cout << "Hadamard katsayýsý: " << condA << " ve cond(A) " << karakter << " 10^3 " << endl;
 			cout << "Matris " << karar << ".";
 		}
 		else if (menu == 11)
