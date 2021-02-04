@@ -137,11 +137,7 @@ int main()
 		{
 			auto sonuc = matrix_calculator.GausMatrisTersi(matrix);
 
-			matrix_calculator.MatrisYazdir(sonuc);
-
-			auto m = matrix_calculator.Inverse(matrix);
-			cout << endl;
-			matrix_calculator.MatrisYazdir(m);
+			matrix_calculator.MatrisYazdir(sonuc);			
 		}
 		else if (menu == 14)
 		{
@@ -183,7 +179,7 @@ int main()
 			cout << endl << "C Matrisi:" << endl;
 			matrix_calculator.MatrisYazdir(c);
 			
-			cout << endl << "A' Matrisi" << endl;			
+			cout << endl << "ATA' Matrisi" << endl;			
 			matrix_calculator.MatrisYazdir(r);			
 		}
 		else
