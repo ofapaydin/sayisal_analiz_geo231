@@ -1,11 +1,8 @@
 #include "MatrixCalculator.h"
 #include <iostream>
 #include <vector>
-#include <Eigen/Eigenvalues>
-
 
 using namespace std;
-using namespace Eigen;
 
 double MatrixCalculator::DeterminantHesapla(vector<vector<double>> matris, int n)
 {
